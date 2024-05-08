@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 public class Citizen {
     @Id
     @GeneratedValue
-    private Integer id;
+    private Integer ID;
     private String firstName;
     private String surname;
     private String DoB;
