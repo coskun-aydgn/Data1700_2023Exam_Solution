@@ -24,6 +24,6 @@ public class Controller {
     }
     @PostMapping("/saveCitizen")
     public void saveCitizen(@RequestBody Citizen citizen) throws IIOException {
-         citizenRepostory.saveCitizen(citizen,HttpServletResponse response);
+
     }
 }

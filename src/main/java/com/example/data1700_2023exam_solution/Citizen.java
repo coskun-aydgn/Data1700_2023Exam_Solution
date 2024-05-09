@@ -4,6 +4,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Generated;
 import lombok.NoArgsConstructor;
 
 @Data
@@ -12,14 +13,12 @@ import lombok.NoArgsConstructor;
 public class Citizen {
     @Id
     @GeneratedValue
-    private Integer ID;
+    private Integer CID;
     private String firstName;
     private String surname;
-    private String DoB;
+    private String doB;
     private String SSN;
     private String phoneNr;
-    private String email;
-    private String city;
-    private String street;
-
+    private String email, city, street;
+    
 }
