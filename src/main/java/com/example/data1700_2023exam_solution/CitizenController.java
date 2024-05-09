@@ -1,6 +1,8 @@
 package com.example.data1700_2023exam_solution;
 
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +19,9 @@ public class CitizenController {
     @Autowired
     private CitizenRepository citizenRepostory;
 
+    @Autowired
+    HttpSession session;
+
     private Logger logger = LoggerFactory.getLogger(CitizenController.class);
 
     @GetMapping("/hello")
@@ -27,6 +32,22 @@ public class CitizenController {
     @PostMapping ("/saveCitizen")
     public void lagreKunde(Citizen citizen, HttpServletResponse response ) throws IOException {
         citizenRepostory.saveCitizen(citizen);
+
+    }
+
+    @GetMapping("/loginn")
+    public boolean login(String username, String password) {
+        if (citizenRepostory.loggInn(username, password)){
+            session.setAttribute("loggetInn",true);
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+
+    @GetMapping("/logout")
+    public void logOut(){
 
     }
 }

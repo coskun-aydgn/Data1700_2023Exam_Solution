@@ -4,8 +4,12 @@ package com.example.data1700_2023exam_solution;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 
 @Repository
@@ -25,8 +29,23 @@ public class CitizenRepository {
             logger.error("An error occured when saving citizen to database : "+e);
             return false;
         }
-
-
     }
+    public boolean loggInn(String username,String password){
+        String sql = "SELECT * FROM User_1 WHERE username = ?";
+        try{
+            List<User_1> users = db.query(sql,new BeanPropertyRowMapper(User_1.class),username);
+            if(users != null){
+                if(users.get(0).getPassword().equals(password)){
+                    return true;
+                }
+            }
+            return false;
+        }
+        catch(Exception e){
+            return false;
+        }
+    }
+
+
 
 }

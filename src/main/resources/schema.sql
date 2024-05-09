@@ -11,3 +11,9 @@ create table Citizen(
     PRIMARY KEY (CID)
 
 );
+ create table User_1(
+     ID INTEGER AUTO_INCREMENT not null,
+     username varchar2(50) not null,
+     password varchar2(50) not null,
+     primary key (ID)
+ );
