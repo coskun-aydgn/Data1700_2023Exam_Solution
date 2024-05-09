@@ -13,27 +13,27 @@
     <h3>Registrering Person</h3>
     <div class="row">
         <div class="col-lg-4">
-            <div id="feil"></div>
+            <div id="fail"></div>
             <form action="/action_page.php">
                 <div class="mb-3">
                     <label for="firstName" class="form-label">First Name</label>
-                    <input  id="firstName" type="text" onchange="validerFirstName()" class="form-control">
-                    <span id="feilFirstName" style="color: red"></span>
+                    <input  id="firstName" type="text" class="form-control" required>
+
                 </div>
                 <div class="mb-3">
                     <label for="surname" class="form-label">Surname</label>
-                    <input  id="surname" type="text" onchange="validerSurname()" class="form-control">
-                    <span id="feilSurname" style="color: red"></span>
+                    <input  id="surname" type="text" class="form-control" required>
+
                 </div>
                 <div class="mb-3">
                     <label for="doB" class="form-label">Date of Birth (MM.DD.YY)</label>
-                    <input  id="doB" type="text" onchange="validerdoB()" class="form-control">
-                    <span id="feilDoB" style="color: red"></span>
+                    <input  id="doB" type="date"  class="form-control" required>
+
                 </div>
                 <div class="mb-3">
                     <label for="SSN" class="form-label">Sosial Security Number</label>
-                    <input  id="SSN" type="text" onchange="validerSSN()" class="form-control">
-                    <span id="feilSSN" style="color: red"></span>
+                    <input  id="SSN" type="text"class="form-control" required>
+
                 </div>
                 <div class="mb-3">
                     <label for="number" class="form-label">Phone Number</label>
@@ -47,21 +47,21 @@
                 </div>
                 <div class="mb-3">
                     <label for="city" class="form-label">City</label>
-                    <input  id="city" type="text" onchange="validerCity()" class="form-control">
-                    <span id="feilCity" style="color: red"></span>
+                    <input  id="city" type="text"class="form-control" required>
+
                 </div>
                 <div class="mb-3">
                     <label for="street" class="form-label">Street</label>
-                    <input  id="street" type="text" onchange="validerStreet()" class="form-control">
-                    <span id="feilStreet" style="color: red"></span>
+                    <input  id="street" type="text"  class="form-control" required>
+
                 </div>
             </form>
             <button type="button" class="btn btn-success" onclick="sendForm()">Send Form</button>
-            <div id="feil"></div>
+
         </div>
     </div>
 </div>
 <script src="index.js"></script>
-<script src="validering.js"></script>
+
 </body>
 </html>
