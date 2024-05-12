@@ -6,13 +6,19 @@ import jakarta.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.Period;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+
+import static org.hibernate.internal.HEMLogging.logger;
 
 @RestController
 public class CitizenController {
@@ -38,7 +44,7 @@ public class CitizenController {
     @GetMapping("/loginn")
     public boolean login(String username, String password) {
         if (citizenRepostory.loggInn(username, password)){
-            session.setAttribute("loggetInn",true);
+            session.setAttribute("coskun",true);
             return true;
         }
         else{
@@ -48,6 +54,39 @@ public class CitizenController {
 
     @GetMapping("/logout")
     public void logOut(){
-
+        session.removeAttribute("coskun");
+    }
+    @GetMapping("/removeUnderage")
+    public boolean removeUnderage(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        if (session.getAttribute("coskun") != null){
+            try {
+                List<Citizen> citizenList=citizenRepostory.getCitizenList();
+                for (Citizen citizen : citizenList) {
+                    if (calculateAge(LocalDate.parse(citizen.getDoB()), LocalDate.now())<18){
+                        citizenRepostory.removeCitizen(citizen.getSSN());
+                        System.out.println(citizen.getFirstName());
+                    }
+                }
+                return true;
+            }catch (Exception e){
+                logger.error("Error in removing underage citizens from database");
+                return false;
+            }
+        }else {
+            return false;
+        }
+    }
+    public static int calculateAge(LocalDate birthday, LocalDate currentDate) {
+        if ((birthday!=null) && (currentDate!=null)){
+            return Period.between(birthday, currentDate).getYears();
+        }else {
+            return 0;
+        }
+    }
+    @GetMapping("/showCitizen")
+    public List<Citizen> showCitizen(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        List<Citizen> citizenList=citizenRepostory.getCitizenList();
+        Collections.sort(citizenList, Comparator.comparing(Citizen::getSurname));
+        return citizenList;
     }
 }

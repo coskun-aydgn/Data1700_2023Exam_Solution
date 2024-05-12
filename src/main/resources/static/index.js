@@ -1,49 +1,51 @@
-function sendForm() {
-    const citizen={
-        firstName: $("#firstName").val(),
-        surname:$("#surname").val(),
-        doB:$("#doB").val(),
-        SSN: $("#SSN").val(),
-        phoneNr:$("#number").val(),
-        email:$("#mail").val(),
-        city:$("#city").val(),
-        street:$("#street").val()
+function validerUsername(){
+    const username = $("#userName").val();
+    const regexp = /^[a-zA-ZæøåÆØÅ. \-]{2,20}$/;
+    const ok = regexp.test(username);
+    if(!ok){
+        $("#feilUsername").html("Navnet må bestå av 2 til 20 bokstaver");
+        console.log("feil username")
+        return false;
     }
-    console.log(citizen);
-    if(validerNummer() && validerEpost() ){
-        $.post("/saveCitizen", citizen, function () {
-            
-        })
-            .fail(function (jqXHR) {
-                const json=$.parseJSON(jqXHR.respondText);
-                $("#fail").html(json.message)
-            })
-    }
+    else{
+        $("#feilUsername").html("");
+        console.log(" username ok")
+    return true;}
 }
 
-function validerNummer() {
-    const number = $("#number").val();
-    const regexp = /^[0-9]{8}$/;
-    const ok = regexp.test(number);
+function validerPassword(){
+    const password = $("#password").val();
+    const regexp = /^(?=.*[A-ZÆØÅa-zøæå])(?=.*\d)[A-ZØÆÅa-zøæå\d]{8,}$/;
+    const ok = regexp.test(password);
     if(!ok){
-        $("#feilNumber").html("Phone number number must consist of 8 digits");
+        $("#feilPassword").html("Passordet må være minimum 8 tegn, minst en bokstav og et tall");
+        console.log("feil password")
         return false;
     }
     else{
-        $("#feilNumber").html("");
-        return true;
-    }
+        $("#feilPassword").html("");
+        console.log(" password ok")
+        return true;}
 }
-function validerEpost() {
-    const email = $("#mail").val();
-    const regexp = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    const ok = regexp.test(email);
-    if(!ok){
-        $("#feilEmail").html("Enter the email address in the correct format (e.g. ca@ca.ca)");
-        return false;
-    }
-    else{
-        $("#feilEmail").html("");
-        return true;
+function loggInnValideringOK() {
+    return (validerUsername() && validerPassword());
+}
+function index() {
+    if(loggInnValideringOK()){
+
+        const url = "/loginn?username="+$("#userName").val()+"&password="+$("#password").val();
+        $.get( url, function( OK ) {
+            console.log(OK)
+            if(OK){
+                window.location.href="registrer.html";
+            }
+            else{
+                $("#feil").html("Feil i brukernavn eller passord");
+            }
+        })
+            .fail(function(jqXHR) {
+                const json = $.parseJSON(jqXHR.responseText);
+                $("#feil").html(json.message);
+            });
     }
 }
